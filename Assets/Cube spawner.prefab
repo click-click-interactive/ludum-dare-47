@@ -43,8 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ea66d63fa842b46b2345ef1ab8a0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nominalObjectToSpawn: {fileID: 9174334066946467306, guid: 34de3a5af918f01439d3adb368b67e78, type: 3}
-  errorObjectToSpawn: {fileID: 570719944315709887, guid: 3dcefcb9b5164054daa392e0af7f0a19, type: 3}
+  nominalObjectToSpawn: {fileID: 5010423057989583599, guid: 248a7d815b8144541bbb4eaec6152392, type: 3}
+  mishapedObjectToSpawn: {fileID: 570719944315709887, guid: 3dcefcb9b5164054daa392e0af7f0a19, type: 3}
+  brokenObjectToSpawn: {fileID: 6446362403791204863, guid: 9a2367997ce3f7d4c854a753ecfa21bc, type: 3}
   spawnInterval: 2
   failureRate: 0.2
 --- !u!1 &8742577153704380797
