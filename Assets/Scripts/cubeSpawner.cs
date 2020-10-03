@@ -3,14 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class cubeSpawner : MonoBehaviour
+public class CubeSpawner : MonoBehaviour
 {
-    public GameObject nominalObjectToSpawn;
-
-    public GameObject mishapedObjectToSpawn;
-
-    public GameObject brokenObjectToSpawn;
-
+    public GameObject cube;
+    
     public float spawnInterval;
 
     // Percentage chance of spawn to fail.
@@ -18,11 +14,6 @@ public class cubeSpawner : MonoBehaviour
     // Value range [0, 1]
     public double failureRate;
 
-    private double brokenCubeSpawnRate;
-
-    private double mishapedObjectSpawnRate;
-
-    private double noSpawnRate;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,38 +31,17 @@ public class cubeSpawner : MonoBehaviour
         System.Random rng = new System.Random((Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
         
         while(true) {
-            GameObject objectToSpawn = null;
-            if(rng.NextDouble() <= failureRate)
+            GameObject spawnedObject = Instantiate(cube, transform.position, transform.rotation, transform);
+            if (rng.NextDouble() <= failureRate)
             {
                 // an error happened
-                double randVar = rng.NextDouble();
-                Debug.Log("Generating random error "+ randVar);
-                if (randVar < 0.33f)
-                {
-                    Debug.Log("Generating broken object");
-                    objectToSpawn = brokenObjectToSpawn;
-                } else if (randVar >= 0.33f && randVar < 0.66f)
-                {
-                    Debug.Log("Generating mishaped object");
-                    objectToSpawn = mishapedObjectToSpawn;
-                } else if (randVar >= 0.66f)
-                {
-                    Debug.Log("Generating NO object");
-                    objectToSpawn = null;
-                }
+                spawnedObject.GetComponent<CubeController>().setState(CubeState.Dirty);
             } else
             {
-                // No error, nominal case
-                Debug.Log("Generating normal object");
-                objectToSpawn = nominalObjectToSpawn;
+                spawnedObject.GetComponent<CubeController>().setState(CubeState.Clean);
             }
-            
-            if(objectToSpawn != null)
-            {
-                GameObject spawnedObject = Instantiate(objectToSpawn, transform.position, transform.rotation, transform);
-            }
-            
-                        
+            spawnedObject.SetActive(true);
+
             yield return new WaitForSeconds(spawnInterval);
         }
     }
