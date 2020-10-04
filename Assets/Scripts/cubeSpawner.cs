@@ -36,10 +36,15 @@ public class CubeSpawner : MonoBehaviour
             {
                 // an error happened
                 spawnedObject.GetComponent<CubeController>().setState(CubeState.Dirty);
+                spawnedObject.name = "BrokenCube";
+                spawnedObject.tag = "BrokenCube";
             } else
             {
                 spawnedObject.GetComponent<CubeController>().setState(CubeState.Clean);
+                spawnedObject.name = "CleanCube";
+                spawnedObject.tag = "CleanCube";
             }
+            
             spawnedObject.SetActive(true);
 
             yield return new WaitForSeconds(spawnInterval);

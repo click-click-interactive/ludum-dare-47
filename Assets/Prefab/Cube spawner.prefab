@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8556031090491890927}
   - component: {fileID: 2021708833903984857}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4205443836751136034}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -1.66, z: 0}
+  m_LocalPosition: {x: -0, y: -1.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 856027156546475861}
@@ -43,10 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ea66d63fa842b46b2345ef1ab8a0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nominalObjectToSpawn: {fileID: 9174334066946467306, guid: 34de3a5af918f01439d3adb368b67e78, type: 3}
-  errorObjectToSpawn: {fileID: 570719944315709887, guid: 3dcefcb9b5164054daa392e0af7f0a19, type: 3}
+  cube: {fileID: 5010423057989583599, guid: 47898a16eeefec443a218df9ce2a9938, type: 3}
   spawnInterval: 2
-  failureRate: 0.2
+  failureRate: 0.8
 --- !u!1 &8742577153704380797
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +57,7 @@ GameObject:
   - component: {fileID: 856027156546475861}
   - component: {fileID: 4594503789869954942}
   - component: {fileID: 2900373595747936457}
-  - component: {fileID: 771853280918004695}
+  - component: {fileID: 416145923701234820}
   m_Layer: 0
   m_Name: Cube spawner
   m_TagString: Untagged
@@ -108,7 +107,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: e2cdd8ca431ee804b807ce9186fb039c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,8 +129,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &771853280918004695
-CapsuleCollider:
+--- !u!65 &416145923701234820
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -140,7 +139,6 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+  serializedVersion: 2
+  m_Size: {x: 1.0000004, y: 2.0000005, z: 1.0000002}
+  m_Center: {x: 0.00000005960466, y: 0, z: -0.00000008940697}
