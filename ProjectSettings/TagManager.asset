@@ -8,6 +8,8 @@ TagManager:
   - Ground
   - Cube
   - Robot
+  - CleanCube
+  - BrokenCube
   layers:
   - Default
   - TransparentFX
@@ -18,12 +20,10 @@ TagManager:
   - 
   - 
   - Conveyor
-  - 
+  - Incinerator
   - Safeguard
   - Robot
   - Cube
-  - 
-  - 
   - 
   - 
   - 

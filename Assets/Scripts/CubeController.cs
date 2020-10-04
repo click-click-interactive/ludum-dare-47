@@ -51,7 +51,7 @@ public class CubeController : MonoBehaviour
         this.GetComponent<MeshFilter>().mesh = this.brokenMesh;
     }
 
-    public void onCollisionEnter(Collision collision)
+    public void OnCollisionEnter(Collision collision)
     {
         Draggable draggable = GetComponent<Draggable>();
         

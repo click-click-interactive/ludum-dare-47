@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6059857086282335064}
   - component: {fileID: 2251897030013367446}
   - component: {fileID: 7188003179165733165}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Eye-left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 5102101131011143762}
   - component: {fileID: 4838803716446227524}
   - component: {fileID: 7245001491254052243}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Eye-right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -201,7 +201,7 @@ GameObject:
   - component: {fileID: 4576127644516818555}
   - component: {fileID: 910917553493812641}
   - component: {fileID: 8775009230617016290}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: BdiText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 8106713072903407806}
   - component: {fileID: 1939814052}
   - component: {fileID: 2895777535643900389}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Robot
   m_TagString: Robot
   m_Icon: {fileID: 0}
@@ -451,7 +451,7 @@ GameObject:
   - component: {fileID: 5335419633004672131}
   - component: {fileID: 8279843169092928303}
   - component: {fileID: 8799213248052277624}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: mouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}

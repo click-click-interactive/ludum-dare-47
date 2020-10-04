@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class Killer : MonoBehaviour
 {
+    [TagSelector]
+    public string TagFilter = "";
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +23,7 @@ public class Killer : MonoBehaviour
     {
         Debug.Log("Killer triggered");
 
-        if (collider.gameObject.tag == "Cube")
+        if (collider.gameObject.tag == TagFilter)
             Destroy(collider.gameObject);
     }
 }
