@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 5010423057989583596}
   - component: {fileID: 5010423057989583592}
   - component: {fileID: 52679033912882988}
-  - component: {fileID: 110730915085971717}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Cube
   m_TagString: Cube
   m_Icon: {fileID: 0}
@@ -150,7 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7323589715084157303}
   - component: {fileID: 5023245034106834276}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: TriggerPoint
   m_TagString: Product
   m_Icon: {fileID: 0}

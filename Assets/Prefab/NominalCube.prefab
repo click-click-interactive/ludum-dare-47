@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 5010423057989583597}
   - component: {fileID: 5010423057989583596}
   - component: {fileID: 5010423057989583592}
-  m_Layer: 0
+  - component: {fileID: 6977349773511193134}
+  m_Layer: 10
   m_Name: NominalCube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +136,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7323589715084157303}
   - component: {fileID: 5023245034106834276}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TriggerPoint
   m_TagString: Product
   m_Icon: {fileID: 0}
