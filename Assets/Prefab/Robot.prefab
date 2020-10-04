@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 5248891938573074311}
   - component: {fileID: 8106713072903407806}
   - component: {fileID: 1939814052}
-  - component: {fileID: 2895777535643900389}
+  - component: {fileID: 7345235734683190806}
   m_Layer: 11
   m_Name: Robot
   m_TagString: Robot
@@ -402,14 +402,15 @@ MonoBehaviour:
     value: -0.005
   Intention: 2
   FocusGauge: 100
-  WorkThreshold: 97.5
-  GazeThreshold: 11.2
-  WanderThreshold: 5.4
+  WorkThreshold: 92.9
+  GazeThreshold: 74.6
+  WanderThreshold: 46.1
   LeaveThreshold: 0
   Speed: 0.5
   exitTarget: {fileID: 0}
   bdiText: {fileID: 8775009230617016290}
   target: {fileID: 0}
+  Machine: {fileID: 0}
 --- !u!54 &1939814052
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -426,7 +427,7 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 68
   m_CollisionDetection: 0
---- !u!65 &2895777535643900389
+--- !u!65 &7345235734683190806
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

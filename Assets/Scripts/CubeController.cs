@@ -55,11 +55,8 @@ public class CubeController : MonoBehaviour
     {
         Draggable draggable = GetComponent<Draggable>();
         
-        Debug.Log("Enabling draggable ?");
-
         if (collision.collider.tag == "Ground")
         {
-            Debug.Log("Enabling draggable");
             draggable.enabled = true;
         }
     }

@@ -21,8 +21,6 @@ public class Killer : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        Debug.Log("Killer triggered");
-
         if (collider.gameObject.tag == TagFilter)
             Destroy(collider.gameObject);
     }

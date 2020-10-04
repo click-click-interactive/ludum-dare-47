@@ -55,10 +55,15 @@ public class RobotController : MonoBehaviour
 
     public GameObject target;
 
+    public GameObject Machine;
+    private Transform workStationPosition;
+    private bool isAttachedToMachine = false;
+
 
     void Awake()
     {
         step = Speed * Time.deltaTime;
+        workStationPosition = Helper.FindComponentInChildWithTag<Transform>(Machine, "WorkStation");
     }
     // Update is called once per frame
     void FixedUpdate()
@@ -73,9 +78,42 @@ public class RobotController : MonoBehaviour
         this.Intention = updateIntention(this.FocusGauge);
         bdiText.text = getBdiDebugText();
 
+
+        if(this.Intention == Desire.Work)
+        {
+            
+            if (Vector3.Distance(transform.position, workStationPosition.position) >= 1.5)
+            {
+                if(isAttachedToMachine)
+                {
+                    isAttachedToMachine = false;
+                    Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
+                }
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z), step);
+                transform.LookAt(new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z));
+            } 
+            else 
+            {
+                if(!isAttachedToMachine)
+                {
+                    isAttachedToMachine = true;
+                    Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
+                }
+                
+                GetComponent<Rigidbody>().velocity = Vector3.zero;
+                GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            }
+        }
+
         if (this.Intention == Desire.Gaze || this.Intention == Desire.Wander)
         {
-            if(target == null)
+            if (isAttachedToMachine)
+            {
+                isAttachedToMachine = false;
+                Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
+            }
+
+            if (target == null)
             {
                 target = getNearestTarget(innerObjects.Concat(mediumObjects).Concat(outerObjects).ToList());
             }
@@ -87,33 +125,25 @@ public class RobotController : MonoBehaviour
                 }
             }
 
-
-            
-        }
-
-
-        if(this.Intention == Desire.Gaze)
-        {
-            if (target != null)
+            if (this.Intention == Desire.Gaze)
             {
-                transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-            }
-        }
-
-        if(this.Intention == Desire.Wander)
-        {
-            
-            if(target != null)
-            {
-                
-                if (Vector3.Distance(transform.position, target.transform.position) > 2)
+                if (target != null)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z), step);
+                    transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
                 }
-                
-                transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
             }
-            
+
+            if (this.Intention == Desire.Wander)
+            {
+                if (target != null)
+                {
+                    if (Vector3.Distance(transform.position, target.transform.position) > 2)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z), step);
+                    }
+                    transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
+                }
+            }
         }
 
         if(this.Intention == Desire.Leave)
@@ -126,8 +156,6 @@ public class RobotController : MonoBehaviour
             transform.LookAt(new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z));
             transform.position = Vector3.MoveTowards(transform.position, new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z), step);
         }
-
-        
 
     }
 

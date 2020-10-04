@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Assets.Scripts;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeSpawner : MonoBehaviour
+public class CubeSpawner : MonoBehaviour, ITriggerObject
 {
     public GameObject cube;
     
@@ -15,18 +16,39 @@ public class CubeSpawner : MonoBehaviour
     [Range(0, 1)]
     public double failureRate;
 
+    private bool isCoroutineActive = false;
+    private IEnumerator spawnRoutine;
+
+    
+
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(Spawn());
+        spawnRoutine = Spawn();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
+    public void DisableAutomaticAction()
+    {
+        if(isCoroutineActive)
+        {
+            StopCoroutine(spawnRoutine);
+            isCoroutineActive = false;
+        }
+    }
+
+    public void EnableAutomaticAction()
+    {
+        if(!isCoroutineActive)
+        {
+            StartCoroutine(spawnRoutine);
+            isCoroutineActive = true;
+        }
+    }
     IEnumerator Spawn() {
         
         System.Random rng = new System.Random((Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
@@ -50,5 +72,14 @@ public class CubeSpawner : MonoBehaviour
 
             yield return new WaitForSeconds(spawnInterval);
         }
+    }
+
+    public void ManualAction()
+    {
+        GameObject spawnedObject = Instantiate(cube, transform.position, transform.rotation, transform);
+        spawnedObject.GetComponent<CubeController>().setState(CubeState.Clean);
+        spawnedObject.name = "CleanCube";
+        spawnedObject.tag = "CleanCube";
+        spawnedObject.SetActive(true);
     }
 }

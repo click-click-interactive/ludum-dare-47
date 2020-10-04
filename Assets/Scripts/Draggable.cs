@@ -7,11 +7,11 @@ public class Draggable : MonoBehaviour
 {
     private Vector3 screenPoint;
     private Vector3 offset;
-    private Rigidbody rigidbody;
+    private Rigidbody rb;
 
     void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
     }
  
     void OnMouseDown()
@@ -20,9 +20,9 @@ public class Draggable : MonoBehaviour
     
         offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
 
-        if (rigidbody != null) {
-            rigidbody.freezeRotation = true;
-            rigidbody.useGravity = false;
+        if (rb != null) {
+            rb.freezeRotation = true;
+            rb.useGravity = false;
         }
     }
 
@@ -45,16 +45,16 @@ public class Draggable : MonoBehaviour
 
             Debug.Log(hit.transform.name);
 
-            if (rigidbody != null)
-                rigidbody.position = Vector3.Lerp(rigidbody.position, hit.point + Vector3.up * 2, 1);
+            if (rb != null)
+                rb.position = Vector3.Lerp(rb.position, hit.point + Vector3.up * 2, 1);
             // Do something with the object that was hit by the raycast.
         }
     }
     void OnMouseUp()
     {
-        if (rigidbody != null) {
-            rigidbody.freezeRotation = false;
-            rigidbody.useGravity = true;
+        if (rb != null) {
+            rb.freezeRotation = false;
+            rb.useGravity = true;
         }
     }
 }
