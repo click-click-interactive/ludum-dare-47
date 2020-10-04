@@ -7,6 +7,7 @@ public class Killer : MonoBehaviour
 {
     [TagSelector]
     public string TagFilter = "";
+    public ParticleSystem ParticlesOnKill;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +22,15 @@ public class Killer : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.gameObject.tag == TagFilter)
+        Debug.Log("Killer triggered");
+
+        if (collider.gameObject.tag == TagFilter) {
+            if (ParticlesOnKill != null)
+            {
+                ParticlesOnKill.transform.position = collider.transform.position;
+                ParticlesOnKill.Play();
+            }
             Destroy(collider.gameObject);
+        }
     }
 }
