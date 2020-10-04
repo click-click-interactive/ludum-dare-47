@@ -36,7 +36,6 @@ public class CubeController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(0, 0, Time.deltaTime);
     }
 
     private void OnMouseDown()
@@ -50,5 +49,18 @@ public class CubeController : MonoBehaviour
     public void ShapeObject()
     {
         this.GetComponent<MeshFilter>().mesh = this.brokenMesh;
+    }
+
+    public void onCollisionEnter(Collision collision)
+    {
+        Draggable draggable = GetComponent<Draggable>();
+        
+        Debug.Log("Enabling draggable ?");
+
+        if (collision.collider.tag == "Ground")
+        {
+            Debug.Log("Enabling draggable");
+            draggable.enabled = true;
+        }
     }
 }

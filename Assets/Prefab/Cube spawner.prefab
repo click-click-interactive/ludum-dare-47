@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8556031090491890927}
-  - component: {fileID: 2021708833903984857}
+  - component: {fileID: 59418167}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 856027156546475861}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2021708833903984857
+--- !u!114 &59418167
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,9 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51ea66d63fa842b46b2345ef1ab8a0c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nominalObjectToSpawn: {fileID: 5010423057989583599, guid: 248a7d815b8144541bbb4eaec6152392, type: 3}
-  mishapedObjectToSpawn: {fileID: 570719944315709887, guid: 3dcefcb9b5164054daa392e0af7f0a19, type: 3}
-  brokenObjectToSpawn: {fileID: 6446362403791204863, guid: 9a2367997ce3f7d4c854a753ecfa21bc, type: 3}
+  cube: {fileID: 7439339777230085549, guid: bd331e911b51a9a4899c4b6797d98542, type: 3}
   spawnInterval: 2
   failureRate: 0.2
 --- !u!1 &8742577153704380797
@@ -97,7 +95,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8742577153704380797}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -140,7 +138,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 8742577153704380797}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5000001
   m_Height: 2
   m_Direction: 1

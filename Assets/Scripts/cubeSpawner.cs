@@ -12,6 +12,7 @@ public class CubeSpawner : MonoBehaviour
     // Percentage chance of spawn to fail.
     // A failed spawn instantiates an 'errorObjectToSpawn'
     // Value range [0, 1]
+    [Range(0, 1)]
     public double failureRate;
 
     // Start is called before the first frame update
@@ -36,7 +37,8 @@ public class CubeSpawner : MonoBehaviour
             {
                 // an error happened
                 spawnedObject.GetComponent<CubeController>().setState(CubeState.Dirty);
-            } else
+            }
+            else
             {
                 spawnedObject.GetComponent<CubeController>().setState(CubeState.Clean);
             }
