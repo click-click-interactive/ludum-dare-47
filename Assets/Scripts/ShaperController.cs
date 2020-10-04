@@ -39,6 +39,6 @@ public class ShaperController : MonoBehaviour, ITriggerObject
     }
     public void ManualAction()
     {
-
+        throw new System.NotImplementedException();
     }
 }

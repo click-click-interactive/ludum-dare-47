@@ -10,7 +10,6 @@ using UnityEngine.UI;
 
 public class RobotController : MonoBehaviour
 {
-
     public int Segments = 32;
     public Color InnerColor = Color.red;
     public float InnerRadius = 3;
@@ -57,6 +56,7 @@ public class RobotController : MonoBehaviour
 
     public GameObject Machine;
     private Transform workStationPosition;
+    public float minimalDistanceToWorkstation = 1.5f;
     private bool isAttachedToMachine = false;
 
 
@@ -82,7 +82,7 @@ public class RobotController : MonoBehaviour
         if(this.Intention == Desire.Work)
         {
             
-            if (Vector3.Distance(transform.position, workStationPosition.position) >= 1.5)
+            if (Vector3.Distance(transform.position, workStationPosition.position) >= minimalDistanceToWorkstation)
             {
                 if(isAttachedToMachine)
                 {
