@@ -112,6 +112,11 @@ public class CubeController : MonoBehaviour
         }
     }
 
+    public CubeStep GetCubeStep()
+    {
+        return step;
+    }
+
     public void SetCubeStep(CubeStep step)
     {
         this.step = step;

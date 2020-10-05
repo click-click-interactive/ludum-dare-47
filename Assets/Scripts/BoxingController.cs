@@ -22,6 +22,11 @@ public class BoxingController : MonoBehaviour, ITriggerObject
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.GetComponent<CubeController>().GetCubeStep() == CubeStep.Packer)
+        {
+            return;
+        }
+
         if(isAutomatic && TagMask.Contains(other.tag))
         {
 
