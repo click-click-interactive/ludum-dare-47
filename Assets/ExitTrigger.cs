@@ -8,6 +8,7 @@ public class ExitTrigger : MonoBehaviour
 
     void OnMouseDown()
     {
+        CubeExit.frozen = false;
         CubeExit.isTriggered = true;
     }
 }
