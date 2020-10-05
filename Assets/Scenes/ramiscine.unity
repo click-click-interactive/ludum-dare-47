@@ -6202,9 +6202,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 197175147, guid: cd87f85fdcbb24b45a4c7aa62466f6d4, type: 3}
+      propertyPath: ShutdownTimer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 197175147, guid: cd87f85fdcbb24b45a4c7aa62466f6d4, type: 3}
+      propertyPath: DestroyTimer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1176022557272582995, guid: cd87f85fdcbb24b45a4c7aa62466f6d4, type: 3}
       propertyPath: failureRate
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8061549476184984598, guid: cd87f85fdcbb24b45a4c7aa62466f6d4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6315,6 +6323,30 @@ PrefabInstance:
       propertyPath: Machine
       value: 
       objectReference: {fileID: 688649076}
+    - target: {fileID: 3689564699532615325, guid: b7a34105057a7a64ba66173616816cf4, type: 3}
+      propertyPath: Beliefs.Array.data[0].value
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689564699532615325, guid: b7a34105057a7a64ba66173616816cf4, type: 3}
+      propertyPath: WorkThreshold
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689564699532615325, guid: b7a34105057a7a64ba66173616816cf4, type: 3}
+      propertyPath: GazeThreshold
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689564699532615325, guid: b7a34105057a7a64ba66173616816cf4, type: 3}
+      propertyPath: WanderThreshold
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689564699532615325, guid: b7a34105057a7a64ba66173616816cf4, type: 3}
+      propertyPath: Speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3689564699532615325, guid: b7a34105057a7a64ba66173616816cf4, type: 3}
+      propertyPath: minimalDistanceToWorkstation
+      value: 2.6
+      objectReference: {fileID: 0}
     - target: {fileID: 7841266147432180503, guid: b7a34105057a7a64ba66173616816cf4, type: 3}
       propertyPath: m_Name
       value: Robot-Packer
@@ -6604,9 +6636,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 271132737, guid: fef9a3d0b59fc494aa0baa34ab8cba30, type: 3}
+      propertyPath: ShutdownTimer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 271132737, guid: fef9a3d0b59fc494aa0baa34ab8cba30, type: 3}
+      propertyPath: DestroyTimer
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 422885188404725946, guid: fef9a3d0b59fc494aa0baa34ab8cba30, type: 3}
       propertyPath: failureRate
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5955219412855408356, guid: fef9a3d0b59fc494aa0baa34ab8cba30, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6803,6 +6843,26 @@ PrefabInstance:
       propertyPath: Machine
       value: 
       objectReference: {fileID: 247365127}
+    - target: {fileID: 4741629317572391500, guid: 67d3df1e50f70c349918ed36387418b7, type: 3}
+      propertyPath: Beliefs.Array.data[0].value
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4741629317572391500, guid: 67d3df1e50f70c349918ed36387418b7, type: 3}
+      propertyPath: WorkThreshold
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4741629317572391500, guid: 67d3df1e50f70c349918ed36387418b7, type: 3}
+      propertyPath: GazeThreshold
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 4741629317572391500, guid: 67d3df1e50f70c349918ed36387418b7, type: 3}
+      propertyPath: WanderThreshold
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4741629317572391500, guid: 67d3df1e50f70c349918ed36387418b7, type: 3}
+      propertyPath: Speed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8872902197284502722, guid: 67d3df1e50f70c349918ed36387418b7, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.86
@@ -6978,6 +7038,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7764408366303677998, guid: 28f021c298852904487ff302d60d62ae, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764408366303677999, guid: 28f021c298852904487ff302d60d62ae, type: 3}
+      propertyPath: m_Size.z
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 7764408366775596252, guid: 28f021c298852904487ff302d60d62ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.65
@@ -7025,6 +7093,18 @@ PrefabInstance:
     - target: {fileID: 7764408366775596255, guid: 28f021c298852904487ff302d60d62ae, type: 3}
       propertyPath: m_Name
       value: Safeguard
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764408367652563880, guid: 28f021c298852904487ff302d60d62ae, type: 3}
+      propertyPath: m_Size.z
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764408367652563883, guid: 28f021c298852904487ff302d60d62ae, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 13.97
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764408367652563883, guid: 28f021c298852904487ff302d60d62ae, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 9.34
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28f021c298852904487ff302d60d62ae, type: 3}
@@ -7116,6 +7196,26 @@ PrefabInstance:
       propertyPath: Machine
       value: 
       objectReference: {fileID: 1569263847}
+    - target: {fileID: 6706072497653470738, guid: 9032d28c6d2050941ba6d9139b31399b, type: 3}
+      propertyPath: Beliefs.Array.data[0].value
+      value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706072497653470738, guid: 9032d28c6d2050941ba6d9139b31399b, type: 3}
+      propertyPath: WorkThreshold
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706072497653470738, guid: 9032d28c6d2050941ba6d9139b31399b, type: 3}
+      propertyPath: GazeThreshold
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706072497653470738, guid: 9032d28c6d2050941ba6d9139b31399b, type: 3}
+      propertyPath: WanderThreshold
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706072497653470738, guid: 9032d28c6d2050941ba6d9139b31399b, type: 3}
+      propertyPath: Speed
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7493856036092172444, guid: 9032d28c6d2050941ba6d9139b31399b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.86
@@ -7171,11 +7271,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 915435287, guid: 4673ca1d68616424e9f975e4f99e308b, type: 3}
       propertyPath: spawnInterval
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 915435287, guid: 4673ca1d68616424e9f975e4f99e308b, type: 3}
       propertyPath: failureRate
-      value: 0.7799999713897705
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784651113, guid: 4673ca1d68616424e9f975e4f99e308b, type: 3}
+      propertyPath: ShutdownTimer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1784651113, guid: 4673ca1d68616424e9f975e4f99e308b, type: 3}
+      propertyPath: DestroyTimer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9201543164818128052, guid: 4673ca1d68616424e9f975e4f99e308b, type: 3}
       propertyPath: m_Name
