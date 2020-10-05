@@ -26,7 +26,7 @@ public class ShaperController : MonoBehaviour, ITriggerObject
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<CubeController>().GetCubeStep() == CubeStep.Shaper)
+        if (TagMask.Contains(other.gameObject.tag) && other.gameObject.GetComponent<CubeController>().GetCubeStep() == CubeStep.Shaper)
         {
             return;
         }

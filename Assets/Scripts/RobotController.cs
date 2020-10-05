@@ -88,8 +88,11 @@ public class RobotController : MonoBehaviour
             }
             this.Intention = updateIntention(this.FocusGauge);
         }
+        if(bdiText != null) 
+        {
+            bdiText.text = getBdiDebugText();
+        }
         
-        bdiText.text = getBdiDebugText();
         if(Intention == Desire.Work)
         {
             executeWorkRoutine();
