@@ -70,6 +70,11 @@ public class RobotController : MonoBehaviour
     public float OuterRadius = 10;
     public float OuterObjectMultiplicator = 1.0f;
 
+    public Sprite WorkSprite;
+    public Sprite GazeSprite;
+    public Sprite CrySprite;
+    public SpriteRenderer headSprite;
+
     void Awake()
     {
         step = Speed * Time.deltaTime;
@@ -78,6 +83,8 @@ public class RobotController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+
+        
         if(listenToBeliefs)
         {
             updateBeliefs();
@@ -95,23 +102,27 @@ public class RobotController : MonoBehaviour
         
         if(Intention == Desire.Work)
         {
+            headSprite.sprite = WorkSprite;
             executeWorkRoutine();
         }
         else if (Intention == Desire.Gaze)
         {
+            headSprite.sprite = GazeSprite;
             executeGazeRoutine();
         }
         else if(Intention == Desire.PartiallySlack)
         {
+            headSprite.sprite = GazeSprite;
             executePartiallySlackRoutine();
         } else if(Intention == Desire.Wander)
         {
+            headSprite.sprite = CrySprite;
             executeWanderRoutine();
         } else if(Intention == Desire.Leave)
         {
+            headSprite.sprite = CrySprite;
             executeLeaveRoutine();
         }
-
     }
 
 
@@ -204,6 +215,7 @@ public class RobotController : MonoBehaviour
             {
                 if(hitCollider.gameObject.GetHashCode() != this.gameObject.GetHashCode())
                 {
+                    Debug.Log("BrokenCube found");
                     foundObjects.Add(hitCollider.gameObject);
                 }
             }
@@ -422,7 +434,7 @@ public class RobotController : MonoBehaviour
                 isAttachedToMachine = false;
                 Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
             }
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z), step);
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(workStationPosition.position.x, workStationPosition.position.y, workStationPosition.position.z), step);
             
         }
         else
@@ -441,7 +453,9 @@ public class RobotController : MonoBehaviour
             GetComponent<Rigidbody>().velocity = Vector3.zero;
             GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
         }
-        transform.LookAt(new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z));
+        
+        transform.LookAt(new Vector3(workStationPosition.transform.position.x, workStationPosition.position.y, workStationPosition.position.z));
+        //transform.LookAt(workStationPosition.position);
     }
 
     private void resumeSlackMode()
