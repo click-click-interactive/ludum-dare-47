@@ -8,7 +8,7 @@ public class MachineController : MonoBehaviour
 
     private bool supervised = false;
 
-    public TextMesh statusText;
+    // public TextMesh statusText;
 
     public GameObject spawner;
     public float ShutdownTimer;
@@ -22,6 +22,7 @@ public class MachineController : MonoBehaviour
     public float freezeTime;
 
     public SpriteRenderer ManualActionSpriteRenderer;
+    public StateReflector stateReflector;
 
     // Start is called before the first frame update
     void Start()
@@ -35,25 +36,26 @@ public class MachineController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!supervised)
+        if (!supervised && !isShutDown)
         {
             if (isShuttingDown && shutdownRemainingTime > 0.0f) {
-                statusText.color = Color.yellow;
-                statusText.text = "SHUTTING DOWN IN " + Mathf.Ceil(shutdownRemainingTime);
+                // statusText.color = Color.yellow;
+                // statusText.text = "SHUTTING DOWN IN " + Mathf.Ceil(shutdownRemainingTime);
                 shutdownRemainingTime -= Time.deltaTime;
             } else if (isShuttingDown && shutdownRemainingTime <= 0.0f) {
                 isShutDown = true;
                 isShuttingDown = false;
                 destroyRemainingTime = DestroyTimer;
+                stateReflector.machineState = MachineState.Shutdown;
+                spawner.SendMessage("DisableAutomaticAction");
             }
         }
 
         if (isShutDown)
         {
-            statusText.color = Color.red;
-            spawner.SendMessage("DisableAutomaticAction");
+            // statusText.color = Color.red;
             if (destroyRemainingTime > 0.0f) {
-                statusText.text = "MANUAL - BREAKDOWN IN " + string.Format("{0:00}:{1:00}", Mathf.FloorToInt(destroyRemainingTime / 60), Mathf.FloorToInt(destroyRemainingTime % 60));
+                // statusText.text = "MANUAL - BREAKDOWN IN " + string.Format("{0:00}:{1:00}", Mathf.FloorToInt(destroyRemainingTime / 60), Mathf.FloorToInt(destroyRemainingTime % 60));
 
                 if (!freezeCountdown) {
                     destroyRemainingTime -= Time.deltaTime;
@@ -73,14 +75,16 @@ public class MachineController : MonoBehaviour
 
         if (state == false) {
             isShuttingDown = true;
+            stateReflector.machineState = MachineState.ShuttingDown;
         } else {
             isShuttingDown = false;
             isShutDown = false;
             shutdownRemainingTime = ShutdownTimer;
             destroyRemainingTime = DestroyTimer;
 
-            statusText.color = Color.green;
-            statusText.text = "WORKING";
+            stateReflector.machineState = MachineState.Working;
+            // statusText.color = Color.green;
+            // statusText.text = "WORKING";
             spawner.SendMessage("EnableAutomaticAction");
         }
     }
