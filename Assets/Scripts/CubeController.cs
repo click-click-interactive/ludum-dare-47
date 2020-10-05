@@ -24,10 +24,14 @@ public class CubeController : MonoBehaviour
         if (this.state == CubeState.Clean)
         {
             this.GetComponent<Renderer>().material.color = Color.green;
+            name = "CleanCube";
+            tag = "CleanCube";
         }
         else
         {
             this.GetComponent<Renderer>().material.color = Color.red;
+            name = "BrokenCube";
+            tag = "BrokenCube";
         }
     }
     // Start is called before the first frame update
@@ -61,7 +65,7 @@ public class CubeController : MonoBehaviour
             }
             else if (step == CubeStep.Packer)
             {
-                PackObject();
+                PackObject(true);
             }
 
         }
@@ -80,15 +84,22 @@ public class CubeController : MonoBehaviour
         this.GetComponent<SphereCollider>().enabled = true;
     }
 
-    public void PackObject()
+    public void PackObject(bool success)
     {
-        Debug.Log("packing object");
-        this.gameObject.GetComponent<MeshFilter>().sharedMesh = packedGameObject.GetComponent<MeshFilter>().sharedMesh;
-        this.gameObject.GetComponent<MeshRenderer>().sharedMaterial = packedGameObject.GetComponent<MeshRenderer>().sharedMaterial;
-        this.gameObject.GetComponent<SphereCollider>().enabled = false;
-        this.gameObject.GetComponent<BoxCollider>().enabled = true;
-        this.gameObject.transform.rotation = Quaternion.identity;
-        this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        if(success)
+        {
+            Debug.Log("packing object");
+            this.gameObject.GetComponent<MeshFilter>().sharedMesh = packedGameObject.GetComponent<MeshFilter>().sharedMesh;
+            this.gameObject.GetComponent<MeshRenderer>().sharedMaterial = packedGameObject.GetComponent<MeshRenderer>().sharedMaterial;
+            this.gameObject.GetComponent<SphereCollider>().enabled = false;
+            this.gameObject.GetComponent<BoxCollider>().enabled = true;
+            this.gameObject.transform.rotation = Quaternion.identity;
+            this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        } else
+        {
+            setState(CubeState.Broken);
+        }
+        
     }
 
     public void OnCollisionEnter(Collision collision)
