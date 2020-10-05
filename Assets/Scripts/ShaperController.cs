@@ -6,6 +6,8 @@ using UnityEngine;
 public class ShaperController : MonoBehaviour, ITriggerObject
 {
     private bool isAutomatic = false;
+    [TagSelector]
+    public List<string> TagMask = new List<string>();
     // Start is called before the first frame update
     void Start()
     {
@@ -21,9 +23,13 @@ public class ShaperController : MonoBehaviour, ITriggerObject
     {
         if(isAutomatic)
         {
-            if (other.gameObject.CompareTag("Product"))
+            if(TagMask.Contains(other.gameObject.tag))
             {
-                other.gameObject.transform.parent.SendMessage("ShapeObject");
+                if(other.gameObject.GetComponent<CubeController>().getState() == CubeState.Clean)
+                {
+                    other.gameObject.GetComponent<CubeController>().SendMessage("ShapeObject");
+                }
+                other.gameObject.GetComponent<CubeController>().SetCubeStep(CubeStep.Shaper);
             }
         }
     }

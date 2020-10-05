@@ -114,7 +114,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &52679033912882988
 MonoBehaviour:
@@ -128,7 +128,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 281a1a84fbb478e42bb106bfa850efb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brokenMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  shapedMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  packedGameObject: {fileID: 6896535549558087342, guid: 0460d4baa8084a34cb0801502e6f5bcb, type: 3}
 --- !u!114 &110730915085971717
 MonoBehaviour:
   m_ObjectHideFlags: 0

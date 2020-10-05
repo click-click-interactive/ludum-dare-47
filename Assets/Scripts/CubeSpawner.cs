@@ -63,7 +63,7 @@ public class CubeSpawner : MonoBehaviour, ITriggerObject
             if (rng.NextDouble() <= failureRate)
             {
                 // an error happened
-                spawnedObject.GetComponent<CubeController>().setState(CubeState.Dirty);
+                spawnedObject.GetComponent<CubeController>().setState(CubeState.Broken);
                 spawnedObject.name = "BrokenCube";
                 spawnedObject.tag = "BrokenCube";
             } else
@@ -72,7 +72,7 @@ public class CubeSpawner : MonoBehaviour, ITriggerObject
                 spawnedObject.name = "CleanCube";
                 spawnedObject.tag = "CleanCube";
             }
-            
+            spawnedObject.GetComponent<CubeController>().SetCubeStep(CubeStep.Spawner);
             spawnedObject.SetActive(true);
 
             yield return new WaitForSeconds(spawnInterval);
