@@ -12,8 +12,10 @@ public class ShaperController : MonoBehaviour, ITriggerObject
     public List<string> TagMask = new List<string>();
     [Range(0, 1)]
     public double failureRate;
+    public StateReflector stateReflector;
     [Header("Dynamo Settings")]
     public float clickValue;
+    public float isShuttingDownThreshold;
     public float reloadedThreshold;
     public float reloadMaxValue;
 
@@ -49,9 +51,17 @@ public class ShaperController : MonoBehaviour, ITriggerObject
                 isReloaded = true;
                 machineController.StopCoroutine(machineController.FreezeDestroyCountdown());
                 machineController.StartCoroutine(machineController.FreezeDestroyCountdown());
+                if (reloadValue < isShuttingDownThreshold)
+                {
+                    stateReflector.machineState = MachineState.ShuttingDown;
+                }
+                else {
+                    stateReflector.machineState = MachineState.Working;
+                }
             }
             else {
                 isReloaded = false;
+                stateReflector.machineState = MachineState.Shutdown;
                 machineController.StopCoroutine(machineController.FreezeDestroyCountdown());
             }
 
@@ -94,10 +104,12 @@ public class ShaperController : MonoBehaviour, ITriggerObject
     public void EnableAutomaticAction()
     {
         isAutomatic = true;
+        stateReflector.machineState = MachineState.Working;
     }
     public void DisableAutomaticAction()
     {
         isAutomatic = false;
+        stateReflector.machineState = MachineState.Shutdown;
     }
     public void ManualAction(ActionType actionType)
     {

@@ -12,6 +12,7 @@ TagManager:
   - BrokenCube
   - WorkStation
   - EventManager
+  - Machine
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - Robot
   - Cube
   - Exit Machine
-  - 
+  - Machine
   - 
   - 
   - 
