@@ -89,7 +89,6 @@ public class CubeController : MonoBehaviour
         this.gameObject.GetComponent<BoxCollider>().enabled = true;
         this.gameObject.transform.rotation = Quaternion.identity;
         this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        this.GetComponent<Rigidbody>().freezeRotation = true;
     }
 
     public void OnCollisionEnter(Collision collision)
