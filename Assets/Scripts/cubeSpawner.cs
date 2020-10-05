@@ -43,11 +43,16 @@ public class CubeSpawner : MonoBehaviour, ITriggerObject
 
     public void EnableAutomaticAction()
     {
-        if(!isCoroutineActive)
+        if (!isCoroutineActive)
         {
             StartCoroutine(spawnRoutine);
             isCoroutineActive = true;
         }
+    }
+
+    private void resumeCoroutine()
+    {
+        
     }
     IEnumerator Spawn() {
         

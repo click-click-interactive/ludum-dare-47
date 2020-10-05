@@ -39,7 +39,7 @@ public class MachineController : MonoBehaviour
     public void SetSupervised(bool state)
     {
         this.supervised = state;
-        Debug.Log("SUPERVISED : " + this.supervised);
+        //Debug.Log("SUPERVISED : " + this.supervised);
     }
 
     private void OnMouseDown()

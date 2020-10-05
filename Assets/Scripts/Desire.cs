@@ -7,6 +7,7 @@ namespace Assets.Scripts
     {
         Work,
         Gaze,
+        PartiallySlack,
         Wander,
         Leave
 

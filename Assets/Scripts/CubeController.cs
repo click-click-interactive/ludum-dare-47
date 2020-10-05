@@ -43,6 +43,7 @@ public class CubeController : MonoBehaviour
         if(this.state == CubeState.Dirty)
         {
             setState(CubeState.Clean);
+            tag = "CleanCube";
         }
     }
 

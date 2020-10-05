@@ -402,15 +402,17 @@ MonoBehaviour:
     value: -0.005
   Intention: 2
   FocusGauge: 100
-  WorkThreshold: 92.9
-  GazeThreshold: 74.6
-  WanderThreshold: 46.1
+  WorkThreshold: 96.9
+  GazeThreshold: 67.4
+  PartiallySlackThreshold: 3.2
+  WanderThreshold: 0
   LeaveThreshold: 0
   Speed: 0.5
   exitTarget: {fileID: 0}
   bdiText: {fileID: 8775009230617016290}
   target: {fileID: 0}
   Machine: {fileID: 0}
+  minimalDistanceToWorkstation: 1.5
 --- !u!54 &1939814052
 Rigidbody:
   m_ObjectHideFlags: 0

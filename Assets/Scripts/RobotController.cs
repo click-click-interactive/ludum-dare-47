@@ -27,11 +27,15 @@ public class RobotController : MonoBehaviour
     public Desire Intention = Desire.Work;
 
     public float FocusGauge = 100f;
+    private bool listenToBeliefs = true;
     [Range(0, 100)]
-    public float WorkThreshold = 75f;
+    public float WorkThreshold = 80f;
 
     [Range(0, 100)]
-    public float GazeThreshold = 50f;
+    public float GazeThreshold = 60f;
+
+    [Range(0, 100)]
+    public float PartiallySlackThreshold = 40f;
 
     [Range(0, 100)]
     public float WanderThreshold = 25f;
@@ -54,10 +58,14 @@ public class RobotController : MonoBehaviour
 
     public GameObject target;
 
+    private List<int> previousTargets = new List<int>();
+
     public GameObject Machine;
     private Transform workStationPosition;
     public float minimalDistanceToWorkstation = 1.5f;
     private bool isAttachedToMachine = false;
+
+    private bool wantsToSlack = true;
 
 
     void Awake()
@@ -68,93 +76,35 @@ public class RobotController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        updateBeliefs();
-        float newValue = updateFocusGauge();
-        if(this.FocusGauge + newValue <= 100 && this.FocusGauge + newValue >= 0)
+        if(listenToBeliefs)
         {
-            this.FocusGauge += newValue;
+            updateBeliefs();
+            float newValue = updateFocusGauge();
+            if (this.FocusGauge + newValue <= 100 && this.FocusGauge + newValue >= 0)
+            {
+                this.FocusGauge += newValue;
+            }
+            this.Intention = updateIntention(this.FocusGauge);
         }
         
-        this.Intention = updateIntention(this.FocusGauge);
         bdiText.text = getBdiDebugText();
-
-
-        if(this.Intention == Desire.Work)
+        if(Intention == Desire.Work)
         {
-            
-            if (Vector3.Distance(transform.position, workStationPosition.position) >= minimalDistanceToWorkstation)
-            {
-                if(isAttachedToMachine)
-                {
-                    isAttachedToMachine = false;
-                    Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
-                }
-                transform.position = Vector3.MoveTowards(transform.position, new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z), step);
-                transform.LookAt(new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z));
-            } 
-            else 
-            {
-                if(!isAttachedToMachine)
-                {
-                    isAttachedToMachine = true;
-                    Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
-                }
-                
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
-                GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-            }
+            executeWorkRoutine();
         }
-
-        if (this.Intention == Desire.Gaze || this.Intention == Desire.Wander)
+        else if (Intention == Desire.Gaze)
         {
-            if (isAttachedToMachine)
-            {
-                isAttachedToMachine = false;
-                Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
-            }
-
-            if (target == null)
-            {
-                target = getNearestTarget(innerObjects.Concat(mediumObjects).Concat(outerObjects).ToList());
-            }
-            else
-            {
-                if (!innerObjects.Concat(mediumObjects).ToList().FirstOrDefault(distraction => distraction.GetHashCode() == target.GetHashCode()))
-                {
-                    target = null;
-                }
-            }
-
-            if (this.Intention == Desire.Gaze)
-            {
-                if (target != null)
-                {
-                    transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-                }
-            }
-
-            if (this.Intention == Desire.Wander)
-            {
-                if (target != null)
-                {
-                    if (Vector3.Distance(transform.position, target.transform.position) > 2)
-                    {
-                        transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z), step);
-                    }
-                    transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-                }
-            }
+            executeGazeRoutine();
         }
-
-        if(this.Intention == Desire.Leave)
+        else if(Intention == Desire.PartiallySlack)
         {
-            if(target != null)
-            {
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
-                target = null;
-            }
-            transform.LookAt(new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z));
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z), step);
+            executePartiallySlackRoutine();
+        } else if(Intention == Desire.Wander)
+        {
+            executeWanderRoutine();
+        } else if(Intention == Desire.Leave)
+        {
+            executeLeaveRoutine();
         }
 
     }
@@ -224,6 +174,10 @@ public class RobotController : MonoBehaviour
         {
             newIntention = Desire.Gaze;
         } 
+        else if (focus >= PartiallySlackThreshold)
+        {
+            newIntention = Desire.PartiallySlack;
+        }
         else if(focus >= WanderThreshold)
         {
             newIntention = Desire.Wander;
@@ -310,26 +264,209 @@ public class RobotController : MonoBehaviour
 
     private string getBdiDebugText()
     {
-        return "Current belief : " + this.Intention.ToString() +"\nFocus Gauge : " + this.FocusGauge.ToString("0.000");   
+        string str = "Current belief : " + this.Intention.ToString() +"\nFocus Gauge : " + this.FocusGauge.ToString("0.000");   
+        if(target != null)
+        {
+            str += "\nTarget : " + target.name;
+        }
+        else
+        {
+            str += "\nTarget : null";
+        }
+        return str;
     }
 
 
-    private GameObject getNearestTarget(List<GameObject> distractions) 
+    private GameObject getNearestTarget(List<GameObject> distractions, List<int> objectsToIgnore) 
     {
         GameObject bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
         foreach (GameObject potentialTarget in distractions)
         {
-            Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
-            float dSqrToTarget = directionToTarget.sqrMagnitude;
-            if (dSqrToTarget < closestDistanceSqr)
+            if(!objectsToIgnore.Contains(potentialTarget.GetHashCode()))
             {
-                closestDistanceSqr = dSqrToTarget;
-                bestTarget = potentialTarget;
+                Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    bestTarget = potentialTarget;
+                }
+            }
+        }
+        return bestTarget;
+    }
+
+    
+    private void executeWorkRoutine()
+    {
+        goToWork();
+    }
+
+    private void executeGazeRoutine()
+    {
+        if (target == null)
+        {
+            target = getNearestTarget(innerObjects.Concat(mediumObjects).Concat(outerObjects).ToList(), previousTargets);
+        }
+        else
+        {
+            if (!innerObjects.Concat(mediumObjects).ToList().FirstOrDefault(distraction => distraction.GetHashCode() == target.GetHashCode()))
+            {
+                if (!previousTargets.Contains(target.GetHashCode()))
+                {
+                    addTargetToHistory(target);
+                }
+                target = null;
             }
         }
 
-        return bestTarget;
+        if (target!= null)
+        {
+            transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
+        } else
+        {
+            transform.LookAt(new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z));
+        }
+    }
+
+
+    private void executePartiallySlackRoutine()
+    {
+        if (!wantsToSlack)
+        {
+            goToWork();
+        }
+        else
+        {
+            if (target == null)
+            {
+                target = getNearestTarget(innerObjects.Concat(mediumObjects).Concat(outerObjects).ToList(), previousTargets);
+            }
+            else
+            {
+                if (!innerObjects.Concat(mediumObjects).ToList().FirstOrDefault(distraction => distraction.GetHashCode() == target.GetHashCode()))
+                {
+                    if (!previousTargets.Contains(target.GetHashCode()))
+                    {
+                        addTargetToHistory(target);
+                    }
+                    listenToBeliefs = false;
+                    wantsToSlack = false;
+                    target = null;
+                }
+            }
+
+            if(target != null)
+            {
+                followDistraction(target);
+            }
+            
+        }
+    }
+
+    private void executeWanderRoutine()
+    {
+        if (target == null)
+        {
+            target = getNearestTarget(innerObjects.Concat(mediumObjects).Concat(outerObjects).ToList(), new List<int>());
+        }
+        else
+        {
+            if (!innerObjects.Concat(mediumObjects).ToList().FirstOrDefault(distraction => distraction.GetHashCode() == target.GetHashCode()))
+            {
+                if (!previousTargets.Contains(target.GetHashCode()))
+                {
+                    addTargetToHistory(target);
+                }
+                target = null;
+
+            }
+        }
+        if(target != null)
+        {
+            followDistraction(target);
+        }
+    }
+
+    
+
+    private void executeLeaveRoutine()
+    {
+        if (target != null)
+        {
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            target = null;
+        }
+        transform.LookAt(new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z));
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z), step);
+    }
+
+
+    private void goToWork()
+    {
+        if (Vector3.Distance(transform.position, workStationPosition.position) >= minimalDistanceToWorkstation)
+        {
+            if (isAttachedToMachine)
+            {
+                isAttachedToMachine = false;
+                Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
+            }
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z), step);
+            
+        }
+        else
+        {
+            if (!isAttachedToMachine)
+            {
+                isAttachedToMachine = true;
+                Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
+
+                if(Intention == Desire.PartiallySlack)
+                {
+                    Invoke("resumeSlackMode", 3);
+                    
+                }
+            }
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
+        transform.LookAt(new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z));
+    }
+
+    private void resumeSlackMode()
+    {
+        wantsToSlack = true;
+        listenToBeliefs = true;
+    }
+
+    private void addTargetToHistory(GameObject target)
+    {
+        // History management is broken. Disabled it temporarily
+        /*previousTargets.Add(target.GetHashCode());
+        if (previousTargets.Count() > 3)
+        {
+            previousTargets.RemoveAt(0);
+        }*/
+    }
+
+    private void followDistraction(GameObject distractionSource)
+    {
+        if (isAttachedToMachine)
+        {
+            isAttachedToMachine = false;
+            Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
+        }
+        if (distractionSource != null)
+        {
+            if (Vector3.Distance(transform.position, distractionSource.transform.position) > 2)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(distractionSource.transform.position.x, transform.position.y, distractionSource.transform.position.z), step);
+            }
+            transform.LookAt(new Vector3(distractionSource.transform.position.x, transform.position.y, distractionSource.transform.position.z));
+        }
+        
     }
 }
+
