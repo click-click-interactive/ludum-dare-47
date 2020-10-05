@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Assets.Scripts;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,8 +7,11 @@ public class CubeController : MonoBehaviour
 {
 
     private CubeState state;
-    public Mesh brokenMesh;
+    public Mesh shapedMesh;
+    public GameObject packedGameObject;
     private Mesh originalMesh;
+
+    private CubeStep step;
 
     public CubeState getState()
     {
@@ -20,10 +24,14 @@ public class CubeController : MonoBehaviour
         if (this.state == CubeState.Clean)
         {
             this.GetComponent<Renderer>().material.color = Color.green;
+            name = "CleanCube";
+            tag = "CleanCube";
         }
         else
         {
             this.GetComponent<Renderer>().material.color = Color.red;
+            name = "BrokenCube";
+            tag = "BrokenCube";
         }
     }
     // Start is called before the first frame update
@@ -40,27 +48,70 @@ public class CubeController : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(this.state == CubeState.Dirty)
+        if(this.state == CubeState.Broken)
         {
+            tag = "CleanCube";
+            // SetState(Clean) is done for every step
+            // SetState(Clean) is the only action to do when state = spawner
             setState(CubeState.Clean);
+            if(step == CubeStep.Spawner)
+            {
+                FixSpawnObject();
+            }
+            
+            else if(step == CubeStep.Shaper)
+            {
+                ShapeObject();
+            }
+            else if (step == CubeStep.Packer)
+            {
+                PackObject();
+            }
+
         }
+    }
+
+    public void FixSpawnObject()
+    {
+        // Stub, no specific action
     }
 
     public void ShapeObject()
     {
-        this.GetComponent<MeshFilter>().mesh = this.brokenMesh;
+        Debug.Log("Shaping object");
+        this.GetComponent<MeshFilter>().mesh = this.shapedMesh;
+        this.GetComponent<BoxCollider>().enabled = false;
+        this.GetComponent<SphereCollider>().enabled = true;
+    }
+
+    public void PackObject()
+    {
+        Debug.Log("packing object");
+        this.gameObject.GetComponent<MeshFilter>().sharedMesh = packedGameObject.GetComponent<MeshFilter>().sharedMesh;
+        this.gameObject.GetComponent<MeshRenderer>().sharedMaterial = packedGameObject.GetComponent<MeshRenderer>().sharedMaterial;
+        this.gameObject.GetComponent<SphereCollider>().enabled = false;
+        this.gameObject.GetComponent<BoxCollider>().enabled = true;
+        this.gameObject.transform.rotation = Quaternion.identity;
+        this.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 
     public void OnCollisionEnter(Collision collision)
     {
         Draggable draggable = GetComponent<Draggable>();
         
-        Debug.Log("Enabling draggable ?");
-
         if (collision.collider.tag == "Ground")
         {
-            Debug.Log("Enabling draggable");
             draggable.enabled = true;
         }
+    }
+
+    public CubeStep GetCubeStep()
+    {
+        return step;
+    }
+
+    public void SetCubeStep(CubeStep step)
+    {
+        this.step = step;
     }
 }

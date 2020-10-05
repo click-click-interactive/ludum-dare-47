@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 1176022557272582994}
   - component: {fileID: 1176022557272582995}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,6 +247,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98cb01f55a855ba44bfded72aa7037a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TagMask:
+  - Cube
+  - CleanCube
+  - BrokenCube
 --- !u!1 &8061549475787042445
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,5 +5,5 @@ using UnityEngine;
 public enum CubeState 
 {
     Clean,
-    Dirty
+    Broken
 }

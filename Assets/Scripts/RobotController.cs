@@ -10,29 +10,20 @@ using UnityEngine.UI;
 
 public class RobotController : MonoBehaviour
 {
-
-    public int Segments = 32;
-    public Color InnerColor = Color.red;
-    public float InnerRadius = 3;
-    public float InnerObjectMultiplicator = 3.0f;
-
-    public Color MediumColor = Color.yellow;
-    public float MediumRadius = 6;
-    public float MediumObjectMultiplicator = 1.5f;
-
-    public Color OuterColor = Color.green;
-    public float OuterRadius = 10;
-    public float OuterObjectMultiplicator = 1.0f;
-
+    [Space]
     public List<BeliefEntity> Beliefs = new List<BeliefEntity>();
     public Desire Intention = Desire.Work;
 
     public float FocusGauge = 100f;
+    private bool listenToBeliefs = true;
     [Range(0, 100)]
-    public float WorkThreshold = 75f;
+    public float WorkThreshold = 80f;
 
     [Range(0, 100)]
-    public float GazeThreshold = 50f;
+    public float GazeThreshold = 60f;
+
+    [Range(0, 100)]
+    public float PartiallySlackThreshold = 40f;
 
     [Range(0, 100)]
     public float WanderThreshold = 25f;
@@ -53,81 +44,70 @@ public class RobotController : MonoBehaviour
 
     public TextMesh bdiText;
 
+    private List<int> previousTargets = new List<int>();
+
+    public GameObject Machine;
+    private Transform workStationPosition;
+    public float minimalDistanceToWorkstation = 1.5f;
+    private bool isAttachedToMachine = false;
+
+    private bool wantsToSlack = true;
+
+    [Header("Debug")]
+    [ReadOnly]
     public GameObject target;
 
+    public int RaySegments = 32;
+    public Color InnerColor = Color.red;
+    public float InnerRadius = 3;
+    public float InnerObjectMultiplicator = 3.0f;
+
+    public Color MediumColor = Color.yellow;
+    public float MediumRadius = 6;
+    public float MediumObjectMultiplicator = 1.5f;
+
+    public Color OuterColor = Color.green;
+    public float OuterRadius = 10;
+    public float OuterObjectMultiplicator = 1.0f;
 
     void Awake()
     {
         step = Speed * Time.deltaTime;
+        workStationPosition = Helper.FindComponentInChildWithTag<Transform>(Machine, "WorkStation");
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-        updateBeliefs();
-        float newValue = updateFocusGauge();
-        if(this.FocusGauge + newValue <= 100 && this.FocusGauge + newValue >= 0)
+        if(listenToBeliefs)
         {
-            this.FocusGauge += newValue;
+            updateBeliefs();
+            float newValue = updateFocusGauge();
+            if (this.FocusGauge + newValue <= 100 && this.FocusGauge + newValue >= 0)
+            {
+                this.FocusGauge += newValue;
+            }
+            this.Intention = updateIntention(this.FocusGauge);
         }
         
-        this.Intention = updateIntention(this.FocusGauge);
         bdiText.text = getBdiDebugText();
-
-        if (this.Intention == Desire.Gaze || this.Intention == Desire.Wander)
+        if(Intention == Desire.Work)
         {
-            if(target == null)
-            {
-                target = getNearestTarget(innerObjects.Concat(mediumObjects).Concat(outerObjects).ToList());
-            }
-            else
-            {
-                if (!innerObjects.Concat(mediumObjects).ToList().FirstOrDefault(distraction => distraction.GetHashCode() == target.GetHashCode()))
-                {
-                    target = null;
-                }
-            }
-
-
-            
+            executeWorkRoutine();
         }
-
-
-        if(this.Intention == Desire.Gaze)
+        else if (Intention == Desire.Gaze)
         {
-            if (target != null)
-            {
-                transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-            }
+            executeGazeRoutine();
         }
-
-        if(this.Intention == Desire.Wander)
+        else if(Intention == Desire.PartiallySlack)
         {
-            
-            if(target != null)
-            {
-                
-                if (Vector3.Distance(transform.position, target.transform.position) > 2)
-                {
-                    transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z), step);
-                }
-                
-                transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
-            }
-            
-        }
-
-        if(this.Intention == Desire.Leave)
+            executePartiallySlackRoutine();
+        } else if(Intention == Desire.Wander)
         {
-            if(target != null)
-            {
-                GetComponent<Rigidbody>().velocity = Vector3.zero;
-                target = null;
-            }
-            transform.LookAt(new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z));
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z), step);
+            executeWanderRoutine();
+        } else if(Intention == Desire.Leave)
+        {
+            executeLeaveRoutine();
         }
-
-        
 
     }
 
@@ -196,6 +176,10 @@ public class RobotController : MonoBehaviour
         {
             newIntention = Desire.Gaze;
         } 
+        else if (focus >= PartiallySlackThreshold)
+        {
+            newIntention = Desire.PartiallySlack;
+        }
         else if(focus >= WanderThreshold)
         {
             newIntention = Desire.Wander;
@@ -227,9 +211,9 @@ public class RobotController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        DrawEllipse(transform.position, transform.up, transform.right, InnerRadius * transform.localScale.x, InnerRadius * transform.localScale.y, Segments, InnerColor);
-        DrawEllipse(transform.position, transform.up, transform.right, MediumRadius * transform.localScale.x, MediumRadius * transform.localScale.y, Segments, MediumColor);
-        DrawEllipse(transform.position, transform.up, transform.right, OuterRadius * transform.localScale.x, OuterRadius * transform.localScale.y, Segments, OuterColor);
+        DrawEllipse(transform.position, transform.up, transform.right, InnerRadius * transform.localScale.x, InnerRadius * transform.localScale.y, RaySegments, InnerColor);
+        DrawEllipse(transform.position, transform.up, transform.right, MediumRadius * transform.localScale.x, MediumRadius * transform.localScale.y, RaySegments, MediumColor);
+        DrawEllipse(transform.position, transform.up, transform.right, OuterRadius * transform.localScale.x, OuterRadius * transform.localScale.y, RaySegments, OuterColor);
     }
 
     private static void DrawEllipse(Vector3 pos, Vector3 up, Vector3 right, float radiusX, float radiusY, int segments, Color color, float duration = 0)
@@ -282,26 +266,213 @@ public class RobotController : MonoBehaviour
 
     private string getBdiDebugText()
     {
-        return "Current belief : " + this.Intention.ToString() +"\nFocus Gauge : " + this.FocusGauge.ToString("0.000");   
+        string str = "Current belief : " + this.Intention.ToString() +"\nFocus Gauge : " + this.FocusGauge.ToString("0.000");   
+        if(target != null)
+        {
+            str += "\nTarget : " + target.name;
+        }
+        else
+        {
+            str += "\nTarget : null";
+        }
+        return str;
     }
 
 
-    private GameObject getNearestTarget(List<GameObject> distractions) 
+    private GameObject getNearestTarget(List<GameObject> distractions, List<int> objectsToIgnore) 
     {
         GameObject bestTarget = null;
         float closestDistanceSqr = Mathf.Infinity;
         Vector3 currentPosition = transform.position;
         foreach (GameObject potentialTarget in distractions)
         {
-            Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
-            float dSqrToTarget = directionToTarget.sqrMagnitude;
-            if (dSqrToTarget < closestDistanceSqr)
+            if(!objectsToIgnore.Contains(potentialTarget.GetHashCode()))
             {
-                closestDistanceSqr = dSqrToTarget;
-                bestTarget = potentialTarget;
+                Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    bestTarget = potentialTarget;
+                }
+            }
+        }
+        return bestTarget;
+    }
+
+    
+    private void executeWorkRoutine()
+    {
+        goToWork();
+    }
+
+    private void executeGazeRoutine()
+    {
+        if (target == null)
+        {
+            target = getNearestTarget(innerObjects.Concat(mediumObjects).Concat(outerObjects).ToList(), previousTargets);
+        }
+        else
+        {
+            if (!innerObjects.Concat(mediumObjects).ToList().FirstOrDefault(distraction => distraction.GetHashCode() == target.GetHashCode()))
+            {
+                if (!previousTargets.Contains(target.GetHashCode()))
+                {
+                    addTargetToHistory(target);
+                }
+                target = null;
             }
         }
 
-        return bestTarget;
+        if (target!= null)
+        {
+            transform.LookAt(new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z));
+        } else
+        {
+            transform.LookAt(new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z));
+        }
+    }
+
+
+    private void executePartiallySlackRoutine()
+    {
+        if (!wantsToSlack)
+        {
+            goToWork();
+        }
+        else
+        {
+            if (target == null)
+            {
+                target = getNearestTarget(innerObjects.Concat(mediumObjects).Concat(outerObjects).ToList(), previousTargets);
+            }
+            else
+            {
+                if (!innerObjects.Concat(mediumObjects).ToList().FirstOrDefault(distraction => distraction.GetHashCode() == target.GetHashCode()))
+                {
+                    if (!previousTargets.Contains(target.GetHashCode()))
+                    {
+                        addTargetToHistory(target);
+                    }
+                    listenToBeliefs = false;
+                    wantsToSlack = false;
+                    target = null;
+                }
+            }
+
+            if(target != null)
+            {
+                followDistraction(target);
+            } else
+            {
+                // Nothing to be distracted on, resuming work
+                wantsToSlack = false;
+            }
+            
+        }
+    }
+
+    private void executeWanderRoutine()
+    {
+        if (target == null)
+        {
+            target = getNearestTarget(innerObjects.Concat(mediumObjects).Concat(outerObjects).ToList(), new List<int>());
+        }
+        else
+        {
+            if (!innerObjects.Concat(mediumObjects).ToList().FirstOrDefault(distraction => distraction.GetHashCode() == target.GetHashCode()))
+            {
+                if (!previousTargets.Contains(target.GetHashCode()))
+                {
+                    addTargetToHistory(target);
+                }
+                target = null;
+
+            }
+        }
+        if(target != null)
+        {
+            followDistraction(target);
+        }
+    }
+
+    
+
+    private void executeLeaveRoutine()
+    {
+        if (target != null)
+        {
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            target = null;
+        }
+        transform.LookAt(new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z));
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(exitTarget.transform.position.x, transform.position.y, exitTarget.transform.position.z), step);
+    }
+
+
+    private void goToWork()
+    {
+        if (Vector3.Distance(transform.position, workStationPosition.position) >= minimalDistanceToWorkstation)
+        {
+            if (isAttachedToMachine)
+            {
+                isAttachedToMachine = false;
+                Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
+            }
+            transform.position = Vector3.MoveTowards(transform.position, new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z), step);
+            
+        }
+        else
+        {
+            if (!isAttachedToMachine)
+            {
+                isAttachedToMachine = true;
+                Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
+
+                if(Intention == Desire.PartiallySlack)
+                {
+                    Invoke("resumeSlackMode", 3);
+                    
+                }
+            }
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        }
+        transform.LookAt(new Vector3(workStationPosition.position.x, transform.position.y, workStationPosition.position.z));
+    }
+
+    private void resumeSlackMode()
+    {
+        wantsToSlack = true;
+        listenToBeliefs = true;
+    }
+
+    private void addTargetToHistory(GameObject target)
+    {
+        // History management is broken. Disabled it temporarily
+        /*previousTargets.Add(target.GetHashCode());
+        if (previousTargets.Count() > 3)
+        {
+            previousTargets.RemoveAt(0);
+        }*/
+    }
+
+    private void followDistraction(GameObject distractionSource)
+    {
+        if (isAttachedToMachine)
+        {
+            isAttachedToMachine = false;
+            Machine.gameObject.SendMessage("SetSupervised", isAttachedToMachine);
+        }
+        if (distractionSource != null)
+        {
+            if (Vector3.Distance(transform.position, distractionSource.transform.position) > 2)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, new Vector3(distractionSource.transform.position.x, transform.position.y, distractionSource.transform.position.z), step);
+            }
+            transform.LookAt(new Vector3(distractionSource.transform.position.x, transform.position.y, distractionSource.transform.position.z));
+        }
+        
     }
 }
+
