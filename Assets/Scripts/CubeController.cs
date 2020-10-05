@@ -24,10 +24,14 @@ public class CubeController : MonoBehaviour
         if (this.state == CubeState.Clean)
         {
             this.GetComponent<Renderer>().material.color = Color.green;
+            name = "CleanCube";
+            tag = "CleanCube";
         }
         else
         {
             this.GetComponent<Renderer>().material.color = Color.red;
+            name = "BrokenCube";
+            tag = "BrokenCube";
         }
     }
     // Start is called before the first frame update
@@ -99,6 +103,11 @@ public class CubeController : MonoBehaviour
         {
             draggable.enabled = true;
         }
+    }
+
+    public CubeStep GetCubeStep()
+    {
+        return step;
     }
 
     public void SetCubeStep(CubeStep step)

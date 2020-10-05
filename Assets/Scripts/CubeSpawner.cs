@@ -96,8 +96,6 @@ public class CubeSpawner : MonoBehaviour, ITriggerObject
     {
         GameObject spawnedObject = Instantiate(cube, transform.position, transform.rotation, transform);
         spawnedObject.GetComponent<CubeController>().setState(CubeState.Clean);
-        spawnedObject.name = "CleanCube";
-        spawnedObject.tag = "CleanCube";
 
         return spawnedObject;
     }
@@ -106,8 +104,6 @@ public class CubeSpawner : MonoBehaviour, ITriggerObject
     {
         GameObject spawnedObject = Instantiate(cube, transform.position, transform.rotation, transform);
         spawnedObject.GetComponent<CubeController>().setState(CubeState.Broken);
-        spawnedObject.name = "BrokenCube";
-        spawnedObject.tag = "BrokenCube";
 
         return spawnedObject;
     }
