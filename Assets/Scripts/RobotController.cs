@@ -363,6 +363,10 @@ public class RobotController : MonoBehaviour
             if(target != null)
             {
                 followDistraction(target);
+            } else
+            {
+                // Nothing to be distracted on, resuming work
+                wantsToSlack = false;
             }
             
         }

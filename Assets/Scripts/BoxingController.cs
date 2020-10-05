@@ -15,13 +15,19 @@ public class BoxingController : MonoBehaviour, ITriggerObject
     {
         if(isAutomatic && TagMask.Contains(other.tag))
         {
-            other.gameObject.GetComponent<MeshFilter>().sharedMesh = box.GetComponent<MeshFilter>().sharedMesh;
-            other.gameObject.GetComponent<MeshRenderer>().sharedMaterial = box.GetComponent<MeshRenderer>().sharedMaterial;
-            other.gameObject.GetComponent<SphereCollider>().enabled = false;
-            other.gameObject.GetComponent<BoxCollider>().enabled = true;
-            other.gameObject.transform.position = other.gameObject.transform.position + new Vector3(0, 0.5f, 0);
-            other.gameObject.transform.rotation = Quaternion.identity;
-            other.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            if(other.gameObject.GetComponent<CubeController>().getState() == CubeState.Clean)
+            {
+                // other.gameObject.transform.parent.SendMessage("PackObject");
+                other.gameObject.GetComponent<CubeController>().SendMessage("PackObject");
+                /*other.gameObject.GetComponent<MeshFilter>().sharedMesh = box.GetComponent<MeshFilter>().sharedMesh;
+                other.gameObject.GetComponent<MeshRenderer>().sharedMaterial = box.GetComponent<MeshRenderer>().sharedMaterial;
+                other.gameObject.GetComponent<SphereCollider>().enabled = false;
+                other.gameObject.GetComponent<BoxCollider>().enabled = true;
+                other.gameObject.transform.position = other.gameObject.transform.position + new Vector3(0, 0.5f, 0);
+                other.gameObject.transform.rotation = Quaternion.identity;
+                other.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;*/
+            }
+            other.gameObject.GetComponent<CubeController>().SetCubeStep(CubeStep.Packer);
         }
     }
 
