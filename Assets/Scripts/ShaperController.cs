@@ -43,7 +43,7 @@ public class ShaperController : MonoBehaviour, ITriggerObject
     {
         isAutomatic = false;
     }
-    public void ManualAction()
+    public void ManualAction(ActionType actionType)
     {
         throw new System.NotImplementedException();
     }

@@ -20,10 +20,16 @@ public class MachineController : MonoBehaviour
     private float destroyRemainingTime;
     private bool freezeCountdown = false;
     public float freezeTime;
-    
+
+    public SpriteRenderer ManualActionSpriteRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
+        if (ManualActionSpriteRenderer != null)
+        {
+            ManualActionSpriteRenderer.enabled = false;
+        }
     }
 
     // Update is called once per frame
@@ -56,6 +62,8 @@ public class MachineController : MonoBehaviour
                 // TODO Game over
             }
         }
+
+        manageManualActionSpriteRenderer(isShutDown);
     }
 
     public void SetSupervised(bool state)
@@ -82,7 +90,7 @@ public class MachineController : MonoBehaviour
         if(isShutDown)
         {
             StopCoroutine("FreezeDestroyCountdown");
-            spawner.SendMessage("ManualAction");
+            spawner.SendMessage("ManualAction", ActionType.MouseDown);
             StartCoroutine("FreezeDestroyCountdown");
         } else
         {
@@ -90,10 +98,29 @@ public class MachineController : MonoBehaviour
         }
     }
 
+    private void OnMouseUp()
+    {
+        Debug.Log("GOT MOUSE UP");
+        spawner.SendMessage("ManualAction", ActionType.MouseUp);
+        
+    }
+
     IEnumerator FreezeDestroyCountdown()
     {
         freezeCountdown = true;
         yield return new WaitForSeconds(freezeTime);
         freezeCountdown = false;
+    }
+
+    private void manageManualActionSpriteRenderer(bool state)
+    {
+        if(ManualActionSpriteRenderer != null)
+        {
+            if (state != ManualActionSpriteRenderer.enabled)
+            {
+                ManualActionSpriteRenderer.enabled = state;
+            }
+        }
+        
     }
 }

@@ -7,6 +7,6 @@ namespace Assets.Scripts
     {
         void EnableAutomaticAction();
         void DisableAutomaticAction();
-        void ManualAction();
+        void ManualAction(ActionType actionType);
     }
 }

@@ -41,7 +41,7 @@ public class BoxingController : MonoBehaviour, ITriggerObject
         isAutomatic = true;
     }
 
-    public void ManualAction()
+    public void ManualAction(ActionType actionType)
     {
         throw new System.NotImplementedException();
     }
