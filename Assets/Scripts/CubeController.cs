@@ -50,13 +50,15 @@ public class CubeController : MonoBehaviour
     public void ShapeObject()
     {
         this.GetComponent<MeshFilter>().mesh = this.brokenMesh;
+        this.GetComponent<BoxCollider>().enabled = false;
+        this.GetComponent<SphereCollider>().enabled = true;
     }
 
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider collider)
     {
         Draggable draggable = GetComponent<Draggable>();
         
-        if (collision.collider.tag == "Ground")
+        if (collider.tag == "Ground")
         {
             draggable.enabled = true;
         }

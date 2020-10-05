@@ -10,19 +10,7 @@ using UnityEngine.UI;
 
 public class RobotController : MonoBehaviour
 {
-    public int Segments = 32;
-    public Color InnerColor = Color.red;
-    public float InnerRadius = 3;
-    public float InnerObjectMultiplicator = 3.0f;
-
-    public Color MediumColor = Color.yellow;
-    public float MediumRadius = 6;
-    public float MediumObjectMultiplicator = 1.5f;
-
-    public Color OuterColor = Color.green;
-    public float OuterRadius = 10;
-    public float OuterObjectMultiplicator = 1.0f;
-
+    [Space]
     public List<BeliefEntity> Beliefs = new List<BeliefEntity>();
     public Desire Intention = Desire.Work;
 
@@ -56,8 +44,6 @@ public class RobotController : MonoBehaviour
 
     public TextMesh bdiText;
 
-    public GameObject target;
-
     private List<int> previousTargets = new List<int>();
 
     public GameObject Machine;
@@ -67,6 +53,22 @@ public class RobotController : MonoBehaviour
 
     private bool wantsToSlack = true;
 
+    [Header("Debug")]
+    [ReadOnly]
+    public GameObject target;
+
+    public int RaySegments = 32;
+    public Color InnerColor = Color.red;
+    public float InnerRadius = 3;
+    public float InnerObjectMultiplicator = 3.0f;
+
+    public Color MediumColor = Color.yellow;
+    public float MediumRadius = 6;
+    public float MediumObjectMultiplicator = 1.5f;
+
+    public Color OuterColor = Color.green;
+    public float OuterRadius = 10;
+    public float OuterObjectMultiplicator = 1.0f;
 
     void Awake()
     {
@@ -209,9 +211,9 @@ public class RobotController : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        DrawEllipse(transform.position, transform.up, transform.right, InnerRadius * transform.localScale.x, InnerRadius * transform.localScale.y, Segments, InnerColor);
-        DrawEllipse(transform.position, transform.up, transform.right, MediumRadius * transform.localScale.x, MediumRadius * transform.localScale.y, Segments, MediumColor);
-        DrawEllipse(transform.position, transform.up, transform.right, OuterRadius * transform.localScale.x, OuterRadius * transform.localScale.y, Segments, OuterColor);
+        DrawEllipse(transform.position, transform.up, transform.right, InnerRadius * transform.localScale.x, InnerRadius * transform.localScale.y, RaySegments, InnerColor);
+        DrawEllipse(transform.position, transform.up, transform.right, MediumRadius * transform.localScale.x, MediumRadius * transform.localScale.y, RaySegments, MediumColor);
+        DrawEllipse(transform.position, transform.up, transform.right, OuterRadius * transform.localScale.x, OuterRadius * transform.localScale.y, RaySegments, OuterColor);
     }
 
     private static void DrawEllipse(Vector3 pos, Vector3 up, Vector3 right, float radiusX, float radiusY, int segments, Color color, float duration = 0)
