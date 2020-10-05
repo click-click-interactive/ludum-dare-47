@@ -387,16 +387,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6665d23e4e400640a0a67140ccfedd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Segments: 32
-  InnerColor: {r: 1, g: 0, b: 0, a: 1}
-  InnerRadius: 3
-  InnerObjectMultiplicator: 3
-  MediumColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  MediumRadius: 6
-  MediumObjectMultiplicator: 1.5
-  OuterColor: {r: 0, g: 1, b: 0, a: 1}
-  OuterRadius: 10
-  OuterObjectMultiplicator: 1
   Beliefs:
   - name: BrokenCube
     value: -0.005
@@ -410,9 +400,19 @@ MonoBehaviour:
   Speed: 0.5
   exitTarget: {fileID: 0}
   bdiText: {fileID: 8775009230617016290}
-  target: {fileID: 0}
   Machine: {fileID: 0}
   minimalDistanceToWorkstation: 1.5
+  target: {fileID: 0}
+  RaySegments: 32
+  InnerColor: {r: 1, g: 0, b: 0, a: 1}
+  InnerRadius: 3
+  InnerObjectMultiplicator: 3
+  MediumColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  MediumRadius: 6
+  MediumObjectMultiplicator: 1.5
+  OuterColor: {r: 0, g: 1, b: 0, a: 1}
+  OuterRadius: 10
+  OuterObjectMultiplicator: 1
 --- !u!54 &1939814052
 Rigidbody:
   m_ObjectHideFlags: 0
