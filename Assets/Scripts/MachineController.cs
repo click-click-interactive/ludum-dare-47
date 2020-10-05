@@ -100,8 +100,12 @@ public class MachineController : MonoBehaviour
 
     private void OnMouseUp()
     {
-        Debug.Log("GOT MOUSE UP");
-        spawner.SendMessage("ManualAction", ActionType.MouseUp);
+        if(isShutDown)
+        {
+            Debug.Log("GOT MOUSE UP");
+            spawner.SendMessage("ManualAction", ActionType.MouseUp);
+        }
+        
         
     }
 

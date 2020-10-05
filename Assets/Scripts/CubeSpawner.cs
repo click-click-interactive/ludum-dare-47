@@ -10,7 +10,7 @@ public class CubeSpawner : MonoBehaviour, ITriggerObject
     public float spawnInterval;
     [Range(0, 1)]
     public double failureRate;
-    public SpriteRenderer ManualActionSpriteRenderer;
+    
     private bool isCoroutineActive = false;
     private bool isCoroutineStartedForce = false;
     private IEnumerator spawnRoutine;
@@ -20,16 +20,14 @@ public class CubeSpawner : MonoBehaviour, ITriggerObject
     // Start is called before the first frame update
     void Start()
     {
-        if(ManualActionSpriteRenderer != null)
-        {
-            ManualActionSpriteRenderer.enabled = false;
-        }
+        
         rng = new System.Random((Int32)(DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds);
         spawnRoutine = Spawn();
     }
 
     public void DisableAutomaticAction()
     {
+        
         if(isCoroutineActive && !isCoroutineStartedForce)
         {
             StopCoroutine(spawnRoutine);
@@ -96,7 +94,7 @@ public class CubeSpawner : MonoBehaviour, ITriggerObject
     {
         GameObject spawnedObject = Instantiate(cube, transform.position, transform.rotation, transform);
         spawnedObject.GetComponent<CubeController>().setState(CubeState.Clean);
-
+        
         return spawnedObject;
     }
 

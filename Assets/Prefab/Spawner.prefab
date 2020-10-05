@@ -44,9 +44,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cube: {fileID: 5010423057989583599, guid: 47898a16eeefec443a218df9ce2a9938, type: 3}
-  spawnInterval: 2
-  failureRate: 0.5
-  ManualActionSpriteRenderer: {fileID: 0}
+  spawnInterval: 1
+  failureRate: 0.11100000143051147
 --- !u!1 &1337707073
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,13 +249,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6930032248024852173}
-  m_LocalRotation: {x: 0, y: 0, z: 0.2588191, w: 0.9659258}
-  m_LocalPosition: {x: 2.12, y: -4, z: 0.66}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.99, y: -4, z: -0.06}
   m_LocalScale: {x: 0.1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 9201543164818128059}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6465732603159761919
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -345,7 +344,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8591015840739899611}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.03, y: -0.89, z: 1.65}
+  m_LocalPosition: {x: 3.1, y: -0.89, z: 1.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 9201543164818128059}
@@ -400,7 +399,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8591015840739899611}
-  m_Text: MACHINE STATUS
+  m_Text: PENDING
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
