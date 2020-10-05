@@ -215,8 +215,11 @@ public class RobotController : MonoBehaviour
             {
                 if(hitCollider.gameObject.GetHashCode() != this.gameObject.GetHashCode())
                 {
-                    Debug.Log("BrokenCube found");
                     foundObjects.Add(hitCollider.gameObject);
+                    if (!Physics.Linecast(transform.position, hitCollider.transform.position, 1 << 14))
+                    {
+                        foundObjects.Add(hitCollider.gameObject);
+                    }
                 }
             }
             

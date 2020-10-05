@@ -109,7 +109,7 @@ public class MachineController : MonoBehaviour
         
     }
 
-    IEnumerator FreezeDestroyCountdown()
+    public IEnumerator FreezeDestroyCountdown()
     {
         freezeCountdown = true;
         yield return new WaitForSeconds(freezeTime);
@@ -126,5 +126,10 @@ public class MachineController : MonoBehaviour
             }
         }
         
+    }
+
+    public bool IsShutdown()
+    {
+        return isShutDown;
     }
 }

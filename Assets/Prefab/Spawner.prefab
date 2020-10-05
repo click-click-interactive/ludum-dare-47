@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 915435286}
   - component: {fileID: 915435287}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 1337707077}
   - component: {fileID: 1337707076}
   - component: {fileID: 1337707075}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7744869203154162125}
   - component: {fileID: 1206331370767526979}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: ManualAction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 6465732603159761919}
   - component: {fileID: 9000127749701182820}
   - component: {fileID: 6920646762407023685}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: WorkStation
   m_TagString: WorkStation
   m_Icon: {fileID: 0}
@@ -329,7 +329,7 @@ GameObject:
   - component: {fileID: 6496291834978440064}
   - component: {fileID: 8212044769264221488}
   - component: {fileID: 3920339208267855842}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: StatusText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 9201543164114586085}
   - component: {fileID: 9201543164114586086}
   - component: {fileID: 9201543164114586087}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -520,7 +520,7 @@ GameObject:
   - component: {fileID: 9201543164154060324}
   - component: {fileID: 9201543164154060325}
   - component: {fileID: 9201543164154060326}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -615,7 +615,7 @@ GameObject:
   - component: {fileID: 9201543164727093342}
   - component: {fileID: 9201543164727093343}
   - component: {fileID: 9201543164727093336}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -709,7 +709,7 @@ GameObject:
   - component: {fileID: 9201543164818128059}
   - component: {fileID: 1784651113}
   - component: {fileID: 5752557588971454604}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
