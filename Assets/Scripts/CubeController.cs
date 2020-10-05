@@ -92,12 +92,11 @@ public class CubeController : MonoBehaviour
         this.GetComponent<Rigidbody>().freezeRotation = true;
     }
 
-
-    public void OnTriggerEnter(Collider collider)
+    public void OnCollisionEnter(Collision collision)
     {
         Draggable draggable = GetComponent<Draggable>();
         
-        if (collider.tag == "Ground")
+        if (collision.collider.tag == "Ground")
         {
             draggable.enabled = true;
         }
