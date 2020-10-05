@@ -46,7 +46,7 @@ public class Draggable : MonoBehaviour
             Debug.Log(hit.transform.name);
 
             if (rb != null)
-                rb.position = Vector3.Lerp(rb.position, hit.point + Vector3.up * 2, 1);
+                rb.position = Vector3.Lerp(rb.position, hit.point + Vector3.up * 2, 2);
             // Do something with the object that was hit by the raycast.
         }
     }
