@@ -18600,7 +18600,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 959ecf77fcfbbcc4299df02ced8c6b41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TagFilter: Cube
+  TagFilter:
+  - Cube
+  - CleanCube
+  - BrokenCube
   ParticlesOnKill: {fileID: 1416716184094211342}
 --- !u!1 &8108272257715462110
 GameObject:
@@ -18627,7 +18630,7 @@ Transform:
   m_GameObject: {fileID: 8108272257715462110}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.65, y: 1, z: 0.65}
   m_Children:
   - {fileID: 1416716184198402793}
   - {fileID: 1416716184367616569}

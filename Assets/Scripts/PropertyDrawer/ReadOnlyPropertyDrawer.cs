@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
+using Assets.Scripts.PropertyDrawer;
 /// <summary>
 /// This class contain custom drawer for ReadOnly attribute.
 /// </summary>
 [CustomPropertyDrawer(typeof(ReadOnlyAttribute))]
-public class ReadOnlyPropertyDrawer : PropertyDrawer
+public class ReadOnlyPropertyDrawer : UnityEditor.PropertyDrawer
 {
     /// <summary>
     /// Unity method for drawing GUI in Editor
@@ -24,3 +26,4 @@ public class ReadOnlyPropertyDrawer : PropertyDrawer
         GUI.enabled = previousGUIState;
     }
 }
+#endif

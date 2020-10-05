@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
 namespace Assets.Scripts
 {
 
-    [System.Serializable]
+    [Serializable]
     public class BeliefEntity
     {
         public string name;

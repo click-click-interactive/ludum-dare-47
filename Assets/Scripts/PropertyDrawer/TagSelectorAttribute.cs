@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
  
-public class TagSelectorAttribute : PropertyAttribute
-{
-    public bool UseDefaultTagFieldDrawer = false;
+ namespace Assets.Scripts.PropertyDrawer {
+    public class TagSelectorAttribute : UnityEngine.PropertyAttribute
+    {
+        public bool UseDefaultTagFieldDrawer = false;
+    }
 }
